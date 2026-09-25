@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RecipeHub - Andhra Food Recipes</title>
+
+    <style>
+
+        /* =========================
+           GENERAL
+        ========================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: #fffaf0;
+            color: #333;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================== */
+
+        header {
+            background: #8b0000;
+            color: white;
+            padding: 15px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .logo h1 {
+            font-size: 25px;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            color: #ffd700;
+        }
+
+
+        /* =========================
+           HERO
+        ========================== */
+
+        .hero {
+            min-height: 430px;
+            background:
+                linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+                url("images/banner.png");
+
+            background-size: cover;
+            background-position: center;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+
+            color: white;
+            padding: 40px 20px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h2 {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            display: flex;
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 16px 20px;
+            font-size: 16px;
+        }
+
+        .search-box button {
+            border: none;
+            background: #ff6b00;
+            color: white;
+            padding: 0 25px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .search-box button:hover {
+            background: #e85c00;
+        }
+
+
+        /* =========================
+           SECTION
+        ========================== */
+
+        .section {
+            padding: 50px 7%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+            color: #8b0000;
+            margin-bottom: 8px;
+        }
+
+        .section-title p {
+            color: #666;
+        }
+
+
+        /* =========================
+           CATEGORIES
+        ========================== */
+
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .category {
+            background: white;
+            border: 2px solid #ff6b00;
+            color: #8b0000;
+            padding: 10px 22px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .category:hover,
+        .category.active {
+            background: #ff6b00;
+            color: white;
+        }
+
+
+        /* =========================
+           RECIPE GRID
+        ========================== */
+
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+
+        /* =========================
+           RECIPE CARD
+        ========================== */
+
+        .recipe-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+        }
+
+        .recipe-image {
+            width: 100%;
+            height: 210px;
+            object-fit: cover;
+        }
+
+        .recipe-content {
+            padding: 18px;
+        }
+
+        .recipe-content h3 {
+            color: #8b0000;
+            margin-bottom: 10px;
+            font-size: 21px;
+        }
+
+        .recipe-info {
+            display: flex;
+            justify-content: space-between;
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .rating {
+            color: #ff9800;
+            font-weight: bold;
+        }
+
+        .view-btn {
+            width: 100%;
+            padding: 11px;
+            border: none;
+            background: #8b0000;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .view-btn:hover {
+            background: #ff6b00;
+        }
+
+        .favorite {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: white;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: none;
+            font-size: 21px;
+            cursor: pointer;
+        }
+
+        .favorite.active {
+            color: red;
+        }
+
+
+        /* =========================
+           SPECIAL OFFER
+        ========================== */
+
+        .offer {
+            background: #fff176;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 7%;
+        }
+
+        .offer h2 {
+            color: #8b0000;
+            margin-bottom: 15px;
+        }
+
+        .offer p {
+            line-height: 2;
+        }
+
+
+        /* =========================
+           MODAL
+        ========================== */
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            overflow-y: auto;
+            padding: 50px 20px;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 800px;
+            margin: auto;
+            border-radius: 15px;
+            overflow: hidden;
+            animation: popup 0.3s ease;
+        }
+
+        @keyframes popup {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-body h2 {
+            color: #8b0000;
+            margin-bottom: 15px;
+        }
+
+        .modal-body h3 {
+            color: #ff6b00;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .modal-body ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .modal-body ol {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .close {
+            float: right;
+            font-size: 30px;
+            cursor: pointer;
+            color: #8b0000;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        footer {
+            background: #3b0000;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+        }
+
+        footer h2 {
+            margin-bottom: 10px;
+        }
+
+        footer p {
+            color: #ddd;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 1000px) {
+
+            .recipe-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero h2 {
+                font-size: 40px;
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav {
+                gap: 12px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h2 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .recipe-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-box {
+                flex-direction: column;
+                border-radius: 10px;
+            }
+
+            .search-box button {
+                padding: 12px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVIGATION BAR
+========================== -->
+
+<header>
+
+    <div class="logo">
+
+        <img src="images/logo.png" alt="RecipeHub Logo">
+
+        <h1>RecipeHub</h1>
+
+    </div>
+
+
+    <nav>
+
+        <a href="#home">Home</a>
+
+        <a href="#recipes">Recipes</a>
+
+        <a href="#categories">Categories</a>
+
+        <a href="#favorites">Favorites</a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =========================
+     HERO SECTION
+========================== -->
+
+<section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <h2>Discover Delicious Recipes</h2>
+
+        <p>
+            Explore authentic Andhra food and traditional Indian recipes.
+        </p>
+
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search for a recipe..."
+                onkeyup="searchRecipes()"
+            >
+
+            <button onclick="searchRecipes()">
+                🔍 Search
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     CATEGORIES
+========================== -->
+
+<section class="section" id="categories">
+
+    <div class="section-title">
+
+        <h2>Explore Categories</h2>
+
+        <p>Choose your favorite type of food</p>
+
+    </div>
+
+
+    <div class="categories">
+
+        <button
+            class="category active"
+            onclick="filterRecipes('all', this)">
+            All
+        </button>
+
+        <button
+            class="category"
+            onclick="filterRecipes('main', this)">
+            Main Course
+        </button>
+
+        <button
+            class="category"
+            onclick="filterRecipes('snacks', this)">
+            Snacks
+        </button>
+
+        <button
+            class="category"
+            onclick="filterRecipes('breakfast', this)">
+            Breakfast
+        </button>
+
+        <button
+            class="category"
+            onclick="filterRecipes('dessert', this)">
+            Desserts
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     RECIPE SECTION
+========================== -->
+
+<section class="section" id="recipes">
+
+    <div class="section-title">
+
+        <h2>Popular Recipes</h2>
+
+        <p>Traditional and delicious recipes for everyone</p>
+
+    </div>
+
+
+    <div class="recipe-grid" id="recipeGrid">
+
+
+        <!-- BIRYANI -->
+
+        <div
+            class="recipe-card"
+            data-name="Chicken Biryani"
+            data-category="main">
+
+            <button
+                class="favorite"
+                onclick="toggleFavorite(this)">
+                ♡
+            </button>
+
+            <img
+                src="images/biryani.jpeg"
+                class="recipe-image"
+                alt="Chicken Biryani">
+
+            <div class="recipe-content">
+
+                <h3>Chicken Biryani</h3>
+
+                <div class="recipe-info">
+
+                    <span>⏱ 60 min</span>
+
+                    <span class="rating">★ 4.8</span>
+
+                </div>
+
+                <button
+                    class="view-btn"
+                    onclick="showRecipe('Chicken Biryani')">
+
+                    View Recipe
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- CHICKEN PAKODA -->
+
+        <div
+            class="recipe-card"
+            data-name="Chicken Pakoda"
+            data-category="snacks">
+
+            <button
+                class="favorite"
+                onclick="toggleFavorite(this)">
+                ♡
+            </button>
+
+            <img
+                src="images/chicken pakoda.jpeg"
+                class="recipe-image"
+                alt="Chicken Pakoda">
+
+            <div class="recipe-content">
+
+                <h3>Chicken Pakoda</h3>
+
+                <div class="recipe-info">
+
+                    <span>⏱ 30 min</span>
+
+                    <span class="rating">★ 4.7</span>
+
+                </div>
+
+                <button
+                    class="view-btn"
+                    onclick="showRecipe('Chicken Pakoda')">
+
+                    View Recipe
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- GONGURA CHICKEN -->
+
+        <div
+            class="recipe-card"
+            data-name="Gongura Chicken"
+            data-category="main">
+
+            <button
+                class="favorite"
+                onclick="toggleFavorite(this)">
+                ♡
+            </button>
+
+            <img
+                src="images/gongurachicken.jpeg"
+                class="recipe-image"
+                alt="Gongura Chicken">
+
+            <div class="recipe-content">
+
+                <h3>Gongura Chicken</h3>
+
+                <div class="recipe-info">
+
+                    <span>⏱ 45 min</span>
+
+                    <span class="rating">★ 4.9</span>
+
+                </div>
+
+                <button
+                    class="view-btn"
+                    onclick="showRecipe('Gongura Chicken')">
+
+                    View Recipe
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- IDLY -->
+
+        <div
+            class="recipe-card"
+            data-name="Idly"
+            data-category="breakfast">
+
+            <button
+                class="favorite"
+                onclick="toggleFavorite(this)">
+                ♡
+            </button>
+
+            <img
+                src="images/idly.jpeg"
+                class="recipe-image"
+                alt="Idly">
+
+            <div class="recipe-content">
+
+                <h3>Soft Idly</h3>
+
+                <div class="recipe-info">
+
+                    <span>⏱ 25 min</span>
+
+                    <span class="rating">★ 4.6</span>
+
+                </div>
+
+                <button
+                    class="view-btn"
+                    onclick="showRecipe('Idly')">
+
+                    View Recipe
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- KODI PULAO -->
+
+        <div
+            class="recipe-card"
+            data-name="Kodi Pulao"
+            data-category="main">
+
+            <button
+                class="favorite"
+                onclick="toggleFavorite(this)">
+                ♡
+            </button>
+
+            <img
+                src="images/kodipullao.jpeg"
+                class="recipe-image"
+                alt="Kodi Pulao">
+
+            <div class="recipe-content">
+
+                <h3>Kodi Pulao</h3>
+
+                <div class="recipe-info">
+
+                    <span>⏱ 50 min</span>
+
+                    <span class="rating">★ 4.8</span>
+
+                </div>
+
+                <button
+                    class="view-btn"
+                    onclick="showRecipe('Kodi Pulao')">
+
+                    View Recipe
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- LADDOO -->
+
+        <div
+            class="recipe-card"
+            data-name="Laddu"
+            data-category="dessert">
+
+            <button
+                class="favorite"
+                onclick="toggleFavorite(this)">
+                ♡
+            </button>
+
+            <img
+                src="images/laddoo.jpeg"
+                class="recipe-image"
+                alt="Laddu">
+
+            <div class="recipe-content">
+
+                <h3>Traditional Laddu</h3>
+
+                <div class="recipe-info">
+
+                    <span>⏱ 30 min</span>
+
+                    <span class="rating">★ 4.7</span>
+
+                </div>
+
+                <button
+                    class="view-btn"
+                    onclick="showRecipe('Laddu')">
+
+                    View Recipe
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ANDHRA MEALS -->
+
+        <div
+            class="recipe-card"
+            data-name="Andhra Meals"
+            data-category="main">
+
+            <button
+                class="favorite"
+                onclick="toggleFavorite(this)">
+                ♡
+            </button>
+
+            <img
+                src="images/meals.jpeg"
+                class="recipe-image"
+                alt="Andhra Meals">
+
+            <div class="recipe-content">
+
+                <h3>Andhra Meals</h3>
+
+                <div class="recipe-info">
+
+                    <span>⏱ 45 min</span>
+
+                    <span class="rating">★ 4.9</span>
+
+                </div>
+
+                <button
+                    class="view-btn"
+                    onclick="showRecipe('Andhra Meals')">
+
+                    View Recipe
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- NATU KODI -->
+
+        <div
+            class="recipe-card"
+            data-name="Natu Kodi"
+            data-category="main">
+
+            <button
+                class="favorite"
+                onclick="toggleFavorite(this)">
+                ♡
+            </button>
+
+            <img
+                src="images/natikodi.jpeg"
+                class="recipe-image"
+                alt="Natu Kodi">
+
+            <div class="recipe-content">
+
+                <h3>Natu Kodi Curry</h3>
+
+                <div class="recipe-info">
+
+                    <span>⏱ 60 min</span>
+
+                    <span class="rating">★ 4.9</span>
+
+                </div>
+
+                <button
+                    class="view-btn"
+                    onclick="showRecipe('Natu Kodi')">
+
+                    View Recipe
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PAYASAM -->
+
+        <div
+            class="recipe-card"
+            data-name="Payasam"
+            data-category="dessert">
+
+            <button
+                class="favorite"
+                onclick="toggleFavorite(this)">
+                ♡
+            </button>
+
+            <img
+                src="images/payasam.jpeg"
+                class="recipe-image"
+                alt="Payasam">
+
+            <div class="recipe-content">
+
+                <h3>Traditional Payasam</h3>
+
+                <div class="recipe-info">
+
+                    <span>⏱ 35 min</span>
+
+                    <span class="rating">★ 4.8</span>
+
+                </div>
+
+                <button
+                    class="view-btn"
+                    onclick="showRecipe('Payasam')">
+
+                    View Recipe
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PESARATTU -->
+
+        <div
+            class="recipe-card"
+            data-name="Pesarattu"
+            data-category="breakfast">
+
+            <button
+                class="favorite"
+                onclick="toggleFavorite(this)">
+                ♡
+            </button>
+
+            <img
+                src="images/pesarattu.jpeg"
+                class="recipe-image"
+                alt="Pesarattu">
+
+            <div class="recipe-content">
+
+                <h3>Andhra Pesarattu</h3>
+
+                <div class="recipe-info">
+
+                    <span>⏱ 25 min</span>
+
+                    <span class="rating">★ 4.8</span>
+
+                </div>
+
+                <button
+                    class="view-btn"
+                    onclick="showRecipe('Pesarattu')">
+
+                    View Recipe
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PUTAREKULU -->
+
+        <div
+            class="recipe-card"
+            data-name="Putarekulu"
+            data-category="dessert">
+
+            <button
+                class="favorite"
+                onclick="toggleFavorite(this)">
+                ♡
+            </button>
+
+            <img
+                src="images/putarekulu.jpeg"
+                class="recipe-image"
+                alt="Putarekulu">
+
+            <div class="recipe-content">
+
+                <h3>Pootharekulu</h3>
+
+                <div class="recipe-info">
+
+                    <span>⏱ 40 min</span>
+
+                    <span class="rating">★ 4.9</span>
+
+                </div>
+
+                <button
+                    class="view-btn"
+                    onclick="showRecipe('Pootharekulu')">
+
+                    View Recipe
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     SPECIAL OFFERS
+========================== -->
+
+<div class="offer">
+
+    <h2>Today's Special Offers 🎉</h2>
+
+    <p>
+        <b>20% Off</b> on Andhra Special Recipes
+    </p>
+
+    <p>
+        <b>Free Delivery</b> on orders above ₹500
+    </p>
+
+    <p>
+        <b>Buy 2 Biryani</b> & Get a Special Dessert
+    </p>
+
+</div>
+
+
+
+<!-- =========================
+     RECIPE MODAL
+========================== -->
+
+<div class="modal" id="recipeModal">
+
+    <div class="modal-content">
+
+        <img
+            id="modalImage"
+            class="modal-image"
+            src=""
+            alt="Recipe">
+
+        <div class="modal-body">
+
+            <span
+                class="close"
+                onclick="closeModal()">
+                &times;
+            </span>
+
+            <h2 id="modalTitle"></h2>
+
+            <p id="modalDescription"></p>
+
+            <h3>🧂 Ingredients</h3>
+
+            <ul id="ingredients"></ul>
+
+            <h3>👩‍🍳 Preparation</h3>
+
+            <ol id="steps"></ol>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     FOOTER
+========================== -->
+
+<footer id="favorites">
+
+    <h2>🍴 RecipeHub</h2>
+
+    <p>
+        Discover delicious recipes and traditional Andhra flavors.
+    </p>
+
+    <br>
+
+    <p>
+        © 2026 RecipeHub | Frontend Project
+    </p>
+
+</footer>
+
+
+
+<script>
+
+    /* ===================================
+       RECIPE DATA
+    =================================== */
+
+    const recipes = {
+
+        "Chicken Biryani": {
+
+            image: "images/biryani.jpeg",
+
+            description:
+                "A flavorful and aromatic chicken biryani made with basmati rice and traditional spices.",
+
+            ingredients: [
+                "Chicken",
+                "Basmati Rice",
+                "Onions",
+                "Tomatoes",
+                "Ginger Garlic Paste",
+                "Biryani Masala",
+                "Curd",
+                "Mint Leaves",
+                "Coriander",
+                "Oil",
+                "Salt"
+            ],
+
+            steps: [
+                "Wash and soak the basmati rice.",
+                "Marinate the chicken with curd and spices.",
+                "Fry onions until golden brown.",
+                "Cook the marinated chicken with spices.",
+                "Add partially cooked rice over the chicken.",
+                "Cover and cook on low flame.",
+                "Garnish with mint and coriander and serve hot."
+            ]
+        },
+
+
+        "Chicken Pakoda": {
+
+            image: "images/chicken pakoda.jpeg",
+
+            description:
+                "Crispy and spicy chicken pakoda, perfect as a snack.",
+
+            ingredients: [
+                "Boneless Chicken",
+                "Besan",
+                "Rice Flour",
+                "Ginger Garlic Paste",
+                "Chilli Powder",
+                "Garam Masala",
+                "Curry Leaves",
+                "Salt",
+                "Oil"
+            ],
+
+            steps: [
+                "Cut the chicken into small pieces.",
+                "Add spices, ginger garlic paste and salt.",
+                "Add besan and rice flour.",
+                "Mix everything well.",
+                "Heat oil in a pan.",
+                "Deep fry the chicken pieces until crispy.",
+                "Serve hot with chutney."
+            ]
+        },
+
+
+        "Gongura Chicken": {
+
+            image: "images/gongurachicken.jpeg",
+
+            description:
+                "A popular Andhra-style chicken dish prepared with tangy gongura leaves.",
+
+            ingredients: [
+                "Chicken",
+                "Gongura Leaves",
+                "Onions",
+                "Green Chillies",
+                "Ginger Garlic Paste",
+                "Red Chilli Powder",
+                "Turmeric",
+                "Salt",
+                "Oil"
+            ],
+
+            steps: [
+                "Wash and cook the gongura leaves.",
+                "Heat oil and fry onions.",
+                "Add ginger garlic paste and green chillies.",
+                "Add chicken and spices.",
+                "Cook until the chicken becomes tender.",
+                "Add cooked gongura leaves.",
+                "Mix well and cook for a few minutes.",
+                "Serve hot with rice."
+            ]
+        },
+
+
+        "Idly": {
+
+            image: "images/idly.jpeg",
+
+            description:
+                "Soft and healthy South Indian steamed rice cakes.",
+
+            ingredients: [
+                "Idly Rice",
+                "Urad Dal",
+                "Water",
+                "Salt"
+            ],
+
+            steps: [
+                "Soak rice and urad dal separately.",
+                "Grind them into a smooth batter.",
+                "Mix and ferment the batter overnight.",
+                "Add salt.",
+                "Pour batter into idly moulds.",
+                "Steam for 10 to 12 minutes.",
+                "Serve hot with chutney and sambar."
+            ]
+        },
+
+
+        "Kodi Pulao": {
+
+            image: "images/kodipullao.jpeg",
+
+            description:
+                "A delicious Andhra-style chicken pulao with aromatic spices.",
+
+            ingredients: [
+                "Chicken",
+                "Basmati Rice",
+                "Onions",
+                "Green Chillies",
+                "Ginger Garlic Paste",
+                "Whole Spices",
+                "Mint",
+                "Coriander",
+                "Salt"
+            ],
+
+            steps: [
+                "Wash and soak the rice.",
+                "Heat oil and add whole spices.",
+                "Add onions and fry until golden.",
+                "Add ginger garlic paste.",
+                "Add chicken and cook with spices.",
+                "Add rice and required water.",
+                "Cook until the rice is completely done.",
+                "Garnish and serve hot."
+            ]
+        },
+
+
+        "Laddu": {
+
+            image: "images/laddoo.jpeg",
+
+            description:
+                "A traditional Indian sweet prepared with gram flour and sugar.",
+
+            ingredients: [
+                "Besan",
+                "Sugar",
+                "Ghee",
+                "Cardamom",
+                "Cashews",
+                "Raisins"
+            ],
+
+            steps: [
+                "Roast besan in ghee on low flame.",
+                "Continue cooking until aromatic.",
+                "Add powdered sugar.",
+                "Add cardamom and dry fruits.",
+                "Mix everything well.",
+                "Allow the mixture to cool slightly.",
+                "Shape into small laddus."
+            ]
+        },
+
+
+        "Andhra Meals": {
+
+            image: "images/meals.jpeg",
+
+            description:
+                "A traditional Andhra meal consisting of rice, curries, dal, chutney and other sides.",
+
+            ingredients: [
+                "Rice",
+                "Dal",
+                "Vegetables",
+                "Tamarind",
+                "Spices",
+                "Curd",
+                "Pickle",
+                "Ghee"
+            ],
+
+            steps: [
+                "Cook rice until soft.",
+                "Prepare dal with vegetables.",
+                "Prepare the required vegetable curry.",
+                "Prepare sambar or rasam.",
+                "Serve rice with curries and dal.",
+                "Add pickle, curd and ghee according to preference."
+            ]
+        },
+
+
+        "Natu Kodi": {
+
+            image: "images/natikodi.jpeg",
+
+            description:
+                "Traditional Andhra country chicken curry prepared with aromatic spices.",
+
+            ingredients: [
+                "Country Chicken",
+                "Onions",
+                "Tomatoes",
+                "Ginger Garlic Paste",
+                "Red Chilli Powder",
+                "Turmeric",
+                "Garam Masala",
+                "Curry Leaves",
+                "Salt"
+            ],
+
+            steps: [
+                "Clean and cut the chicken.",
+                "Heat oil and fry onions.",
+                "Add ginger garlic paste.",
+                "Add tomatoes and spices.",
+                "Add chicken and mix well.",
+                "Add water and cover the pan.",
+                "Cook until the chicken becomes tender.",
+                "Serve with rice or roti."
+            ]
+        },
+
+
+        "Payasam": {
+
+            image: "images/payasam.jpeg",
+
+            description:
+                "A traditional Indian dessert made with milk, sugar and rice.",
+
+            ingredients: [
+                "Milk",
+                "Rice",
+                "Sugar",
+                "Cardamom",
+                "Cashews",
+                "Raisins"
+            ],
+
+            steps: [
+                "Wash the rice.",
+                "Boil milk in a thick-bottomed pan.",
+                "Add rice and cook until soft.",
+                "Add sugar and mix well.",
+                "Add cardamom.",
+                "Fry cashews and raisins in ghee.",
+                "Add them to the payasam and serve."
+            ]
+        },
+
+
+        "Pesarattu": {
+
+            image: "images/pesarattu.jpeg",
+
+            description:
+                "A healthy Andhra breakfast made using green gram.",
+
+            ingredients: [
+                "Green Gram",
+                "Green Chillies",
+                "Ginger",
+                "Cumin",
+                "Onion",
+                "Salt",
+                "Water"
+            ],
+
+            steps: [
+                "Soak green gram for several hours.",
+                "Grind it with ginger and green chillies.",
+                "Add cumin and salt.",
+                "Heat a tawa.",
+                "Pour the batter and spread it into a thin circle.",
+                "Add chopped onions.",
+                "Cook both sides until crisp.",
+                "Serve hot."
+            ]
+        },
+
+
+        "Pootharekulu": {
+
+            image: "images/putarekulu.jpeg",
+
+            description:
+                "A famous Andhra sweet made with thin rice sheets, sugar and ghee.",
+
+            ingredients: [
+                "Rice Sheets",
+                "Powdered Sugar",
+                "Ghee",
+                "Cardamom",
+                "Dry Fruits"
+            ],
+
+            steps: [
+                "Prepare the thin rice sheets.",
+                "Place one sheet carefully.",
+                "Apply a thin layer of ghee.",
+                "Sprinkle powdered sugar.",
+                "Add cardamom and dry fruits.",
+                "Fold the sheet carefully.",
+                "Repeat the layers.",
+                "Serve the sweet."
+            ]
+        }
+
+    };
+
+
+
+    /* ===================================
+       SEARCH
+    =================================== */
+
+    function searchRecipes() {
+
+        const search =
+            document.getElementById("searchInput")
+            .value
+            .toLowerCase();
+
+        const cards =
+            document.querySelectorAll(".recipe-card");
+
+        cards.forEach(card => {
+
+            const name =
+                card.getAttribute("data-name")
+                .toLowerCase();
+
+            if (name.includes(search)) {
+
+                card.style.display = "block";
+
+            } else {
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+    }
+
+
+
+    /* ===================================
+       CATEGORY FILTER
+    =================================== */
+
+    function filterRecipes(category, button) {
+
+        const cards =
+            document.querySelectorAll(".recipe-card");
+
+        const buttons =
+            document.querySelectorAll(".category");
+
+        buttons.forEach(btn => {
+
+            btn.classList.remove("active");
+
+        });
+
+        button.classList.add("active");
+
+
+        cards.forEach(card => {
+
+            const cardCategory =
+                card.getAttribute("data-category");
+
+            if (
+                category === "all" ||
+                cardCategory === category
+            ) {
+
+                card.style.display = "block";
+
+            } else {
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+    }
+
+
+
+    /* ===================================
+       SHOW RECIPE
+    =================================== */
+
+    function showRecipe(recipeName) {
+
+        const recipe =
+            recipes[recipeName];
+
+        if (!recipe) {
+            return;
+        }
+
+
+        document.getElementById("modalTitle")
+            .textContent = recipeName;
+
+
+        document.getElementById("modalImage")
+            .src = recipe.image;
+
+
+        document.getElementById("modalDescription")
+            .textContent = recipe.description;
+
+
+        const ingredients =
+            document.getElementById("ingredients");
+
+        ingredients.innerHTML = "";
+
+
+        recipe.ingredients.forEach(item => {
+
+            const li =
+                document.createElement("li");
+
+            li.textContent = item;
+
+            ingredients.appendChild(li);
+
+        });
+
+
+        const steps =
+            document.getElementById("steps");
+
+        steps.innerHTML = "";
+
+
+        recipe.steps.forEach(step => {
+
+            const li =
+                document.createElement("li");
+
+            li.textContent = step;
+
+            steps.appendChild(li);
+
+        });
+
+
+        document.getElementById("recipeModal")
+            .style.display = "block";
+
+    }
+
+
+
+    /* ===================================
+       CLOSE MODAL
+    =================================== */
+
+    function closeModal() {
+
+        document.getElementById("recipeModal")
+            .style.display = "none";
+
+    }
+
+
+    window.onclick = function(event) {
+
+        const modal =
+            document.getElementById("recipeModal");
+
+        if (event.target === modal) {
+
+            modal.style.display = "none";
+
+        }
+
+    };
+
+
+
+    /* ===================================
+       FAVORITE
+    =================================== */
+
+    function toggleFavorite(button) {
+
+        button.classList.toggle("active");
+
+        if (button.classList.contains("active")) {
+
+            button.textContent = "♥";
+
+        } else {
+
+            button.textContent = "♡";
+
+        }
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
